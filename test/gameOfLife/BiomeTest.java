@@ -1,6 +1,7 @@
 package gameOfLife;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -27,6 +28,50 @@ public class BiomeTest {
 		assertFalse(biome.getCellState(2, 0));
 		assertFalse(biome.getCellState(2, 1));
 		assertFalse(biome.getCellState(2, 2));
+	}
+
+	@Test
+	public void testSetCellStateTrueMakesCellLive() {
+		Biome biome = new Biome(1, 1);
+
+		biome.setCellState(0, 0, true);
+
+		assertTrue(biome.getCellState(0, 0));
+	}
+
+	@Test
+	public void testSetAliveFalseMakesCellDead() {
+		Biome biome = new Biome(1, 1);
+		biome.setCellState(0, 0, true);
+		biome.setCellState(0, 0, false);
+
+		boolean alive = biome.getCellState(0, 0);
+		assertFalse("Biome cell is not set dead.", alive);
+	}
+
+	@Test
+	public void testMoreThanOneCellCanBeAlive() throws Exception {
+		Biome biome = new Biome(2, 2);
+		biome.setCellState(0, 0, true);
+		biome.setCellState(0, 1, true);
+
+		boolean alive1 = biome.getCellState(0, 0);
+		boolean alive2 = biome.getCellState(0, 1);
+		assertTrue(alive1);
+		assertTrue(alive2);
+	}
+
+	@Test
+	public void testCellStateIsSeparateForCoordinates() throws Exception {
+		Biome biome = new Biome(2, 2);
+		biome.setCellState(0, 0, true);
+		biome.setCellState(0, 1, true);
+		biome.setCellState(0, 0, false);
+
+		boolean alive1 = biome.getCellState(0, 0);
+		boolean alive2 = biome.getCellState(0, 1);
+		assertFalse(alive1);
+		assertTrue(alive2);
 	}
 
 }
