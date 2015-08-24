@@ -19,6 +19,14 @@ public class Biome {
 		grid[y][x] = cellState;
 	}
 
+	public void setRandomState() {
+		for (int y = 0; y < sizeY; y++) {
+			for (int x = 0; x < sizeX; x++) {
+				grid[y][x] = Math.random() > 0.5;
+			}
+		}
+	}
+
 	public void advanceTick() {
 		boolean[][] nextGrid;
 		nextGrid = new boolean[sizeY][sizeX];

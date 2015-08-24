@@ -9,6 +9,7 @@ public class GameOfLife {
 
 	public static void main(String[] args) {
 		biome = new Biome(SIZE_Y, SIZE_X);
+		biome.setRandomState();
 		queryUserToContinue();
 	}
 
