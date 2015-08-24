@@ -45,8 +45,7 @@ public class BiomeTest {
 		biome.setCellState(0, 0, true);
 		biome.setCellState(0, 0, false);
 
-		boolean alive = biome.getCellState(0, 0);
-		assertFalse("Biome cell is not set dead.", alive);
+		assertFalse(biome.getCellState(0, 0));
 	}
 
 	@Test
@@ -55,10 +54,8 @@ public class BiomeTest {
 		biome.setCellState(0, 0, true);
 		biome.setCellState(0, 1, true);
 
-		boolean alive1 = biome.getCellState(0, 0);
-		boolean alive2 = biome.getCellState(0, 1);
-		assertTrue(alive1);
-		assertTrue(alive2);
+		assertTrue(biome.getCellState(0, 0));
+		assertTrue(biome.getCellState(0, 1));
 	}
 
 	@Test
@@ -68,10 +65,109 @@ public class BiomeTest {
 		biome.setCellState(0, 1, true);
 		biome.setCellState(0, 0, false);
 
-		boolean alive1 = biome.getCellState(0, 0);
-		boolean alive2 = biome.getCellState(0, 1);
-		assertFalse(alive1);
-		assertTrue(alive2);
+		assertFalse(biome.getCellState(0, 0));
+		assertTrue(biome.getCellState(0, 1));
+	}
+
+	@Test
+	public void testLiveCellWithZeroNeighborsDies() throws Exception {
+		Biome biome = new Biome(3, 3);
+		biome.setCellState(1, 1, true);
+
+		biome.advanceTick();
+
+		assertFalse(biome.getCellState(1, 1));
+	}
+
+	@Test
+	public void testLiveCellWithOneNeighborDies() throws Exception {
+		Biome biome = new Biome(3, 3);
+		biome.setCellState(1, 1, true);
+		biome.setCellState(1, 2, true);
+
+		biome.advanceTick();
+
+		assertFalse(biome.getCellState(0, 0));
+	}
+
+	@Test
+	public void testLiveCellWithTwoNeighborsLives() throws Exception {
+		Biome biome = new Biome(3, 3);
+		biome.setCellState(1, 0, true);
+		biome.setCellState(1, 1, true);
+		biome.setCellState(1, 2, true);
+
+		biome.advanceTick();
+
+		assertTrue(biome.getCellState(1, 1));
+	}
+
+	@Test
+	public void testLiveCellWithThreeNeighborsLives() {
+		Biome biome = new Biome(3, 3);
+		biome.setCellState(1, 1, true);
+		biome.setCellState(1, 2, true);
+		biome.setCellState(2, 1, true);
+		biome.setCellState(2, 2, true);
+
+		biome.advanceTick();
+
+		assertTrue(biome.getCellState(1, 1));
+	}
+
+	@Test
+	public void testLiveCellWithFourNeighborsDies() throws Exception {
+		Biome biome = new Biome(3, 3);
+		biome.setCellState(1, 0, true);
+		biome.setCellState(1, 1, true);
+		biome.setCellState(1, 2, true);
+		biome.setCellState(2, 0, true);
+		biome.setCellState(2, 1, true);
+
+		biome.advanceTick();
+
+		assertFalse(biome.getCellState(1, 1));
+	}
+
+	@Test
+	public void testLiveCellWithEightNeighborsDies() throws Exception {
+		Biome biome = new Biome(3, 3);
+		biome.setCellState(0, 0, true);
+		biome.setCellState(0, 1, true);
+		biome.setCellState(0, 2, true);
+		biome.setCellState(1, 0, true);
+		biome.setCellState(1, 1, true);
+		biome.setCellState(1, 2, true);
+		biome.setCellState(2, 0, true);
+		biome.setCellState(2, 1, true);
+		biome.setCellState(2, 2, true);
+
+		biome.advanceTick();
+
+		assertFalse(biome.getCellState(1, 1));
+	}
+
+	@Test
+	public void testDeadCellWithThreeNeighborsLives() throws Exception {
+		Biome biome = new Biome(3, 3);
+		biome.setCellState(0, 0, true);
+		biome.setCellState(0, 1, true);
+		biome.setCellState(0, 2, true);
+
+		biome.advanceTick();
+
+		assertTrue(biome.getCellState(1, 1));
+	}
+
+	@Test
+	public void testDeadCellWithTwoNeighborsRemainsDead() throws Exception {
+		Biome biome = new Biome(3, 3);
+		biome.setCellState(0, 0, true);
+		biome.setCellState(0, 1, true);
+
+		biome.advanceTick();
+
+		assertFalse(biome.getCellState(1, 1));
 	}
 
 }

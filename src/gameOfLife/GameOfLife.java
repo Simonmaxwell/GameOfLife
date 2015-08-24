@@ -20,6 +20,7 @@ public class GameOfLife {
 			System.out.println(censusReport());
 			System.out.println("Advance Y/N?:");
 			advance = input.next();
+			biome.advanceTick();
 		} while (advance.equalsIgnoreCase("y"));
 		input.close();
 	}
