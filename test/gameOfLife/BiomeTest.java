@@ -1,5 +1,6 @@
 package gameOfLife;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -168,6 +169,50 @@ public class BiomeTest {
 		biome.advanceTick();
 
 		assertFalse(biome.getCellState(1, 1));
+	}
+
+	@Test
+	public void testGetGridReturnsGrid() throws Exception {
+		Biome biome = new Biome(2, 2);
+		biome.setCellState(0, 0, true);
+		biome.setCellState(0, 1, true);
+		biome.setCellState(1, 1, true);
+
+		boolean[][] grid = biome.getGrid();
+
+		assertEquals(grid.length, 2);
+		assertEquals(grid[0].length, 2);
+		assertEquals(grid[1].length, 2);
+		assertTrue(grid[0][0]);
+		assertTrue(grid[0][1]);
+		assertTrue(grid[1][1]);
+		assertFalse(grid[1][0]);
+	}
+
+	@Test
+	public void testGetGridReturnsRectangleGrid() throws Exception {
+		Biome biome = new Biome(1, 3);
+		biome.setCellState(0, 0, true);
+		biome.setCellState(0, 2, true);
+
+		boolean[][] grid = biome.getGrid();
+
+		assertEquals(grid.length, 1);
+		assertEquals(grid[0].length, 3);
+		assertTrue(grid[0][0]);
+		assertFalse(grid[0][1]);
+		assertTrue(grid[0][2]);
+	}
+
+	@Test
+	public void testGetGridReturnsCopyOfGrid() throws Exception {
+		Biome biome = new Biome(1, 1);
+		biome.setCellState(0, 0, true);
+
+		boolean[][] grid = biome.getGrid();
+		grid[0][0] = false;
+
+		assertTrue(biome.getCellState(0, 0));
 	}
 
 }

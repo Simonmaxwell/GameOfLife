@@ -69,4 +69,14 @@ public class Biome {
 		}
 	}
 
+	public boolean[][] getGrid() {
+		boolean[][] gridCopy = new boolean[sizeY][sizeX];
+		for (int y = 0; y < sizeY; y++) {
+			for (int x = 0; x < sizeX; x++) {
+				gridCopy[y][x] = grid[y][x];
+			}
+		}
+		return gridCopy;
+	}
+
 }
